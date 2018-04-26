@@ -16,7 +16,7 @@ namespace DatabaseAccess
 
         private const string SqlErrorMessage = "The Database is fetching coffee. Try again later...";
 
-        private const string ParamName = "@Name";
+        private const string NameStr = "Name";
 
         /// <summary>
         /// Returns all data from the 'Bird' and BirdsCount' table with a DataRealtion on the BirdID property.
@@ -54,51 +54,71 @@ namespace DatabaseAccess
 
         }
 
+        /// <summary>
+        /// Updates all the changes in the DataSet to the BirdsDatabase.
+        /// </summary>
+        /// <param name="dataSet">The DataSet containing the changes to be commited to the database</param>
         public void CommitData(DataSet dataSet)
         {
             var adapter = new SqlDataAdapter();
-            var connection = new SqlConnection(BirdsConnectionString);
 
             // -----------------------------------------------------------------------
 
-            var insertQuery = $"INSERT INTO Bird (Name) VALUES ({ParamName})";
+            var insertQuery = $"INSERT INTO Bird (Name) VALUES (@{NameStr})";
 
-            adapter.InsertCommand = CreateCommand(insertQuery, connection);
-            
-            var insertParamName = new SqlParameter($"{ParamName}", SqlDbType.NVarChar) { SourceColumn = "Name" };
-            adapter.InsertCommand.Parameters.Add(insertParamName);
+            adapter.InsertCommand = CreateCommand(insertQuery, BirdsConnectionString, 
+                CreateParameter(NameStr, SqlDbType.NVarChar));
 
             // -----------------------------------------------------------------------
 
             var updateQuery = "UPDATE Bird " +
-                              $"SET Name = {ParamName} " +
+                              $"SET Name = @{NameStr} " +
                               $"WHERE {SharedNames.BirdId} = @{SharedNames.BirdId}";
 
-            adapter.UpdateCommand = CreateCommand(updateQuery, connection);
-
-            var updateParamName = new SqlParameter($"{ParamName}", SqlDbType.NVarChar) { SourceColumn = "Name"};
-            var updateParamBirdId = new SqlParameter($"@{SharedNames.BirdId}", SqlDbType.Int) { SourceColumn = SharedNames.BirdId };
-
-            adapter.UpdateCommand.Parameters.Add(updateParamName);
-            adapter.UpdateCommand.Parameters.Add(updateParamBirdId);
+            adapter.UpdateCommand = CreateCommand(updateQuery, BirdsConnectionString, 
+                CreateParameter(NameStr, SqlDbType.NVarChar), 
+                CreateParameter(SharedNames.BirdId, SqlDbType.BigInt));
 
             // -----------------------------------------------------------------------
 
             var deleteQuery = $"DELETE FROM Bird WHERE {SharedNames.BirdId} = @{SharedNames.BirdId}";
 
-            adapter.DeleteCommand = CreateCommand(deleteQuery, connection);
-
-            var deleteParamBirdId = new SqlParameter($"@{SharedNames.BirdId}", SqlDbType.Int) { SourceColumn = SharedNames.BirdId };
-            adapter.DeleteCommand.Parameters.Add(deleteParamBirdId);
+            adapter.DeleteCommand = CreateCommand(deleteQuery, BirdsConnectionString, 
+                CreateParameter(SharedNames.BirdId, SqlDbType.Int));
 
             // -----------------------------------------------------------------------
 
             adapter.Update(dataSet, SharedNames.Birds);
         }
 
-        private SqlCommand CreateCommand(string query, SqlConnection connection)
+        /// <summary>
+        /// Creates and returns a new SqlCommand.
+        /// </summary>
+        /// <param name="query">The query that the command should execute.</param>
+        /// <param name="connection">The connectionString to the database the command is operating on.</param>
+        /// <param name="parameters">An array of SqlParameter that contains all the parameters for the command.
+        /// Is allowed to be zero if no parameters are required!</param>
+        /// <returns>The SqlCommand.</returns>
+        private SqlCommand CreateCommand(string query, string connection, params SqlParameter[] parameters)
         {
-            return new SqlCommand(query, connection);
+            var command = new SqlCommand(query, new SqlConnection(connection));
+            foreach (var parameter in parameters)
+            {
+                command.Parameters.Add(parameter);
+            }
+            return command;
+        }
+
+        /// <summary>
+        /// Creates and returns a new SqlParameter.
+        /// </summary>
+        /// <param name="tableName">The name of the SqlTable the parameter is bound to.
+        /// Must also be the name of the parameter in the QueryString without the '@'!</param>
+        /// <param name="type">The SqlDbType that this parameter specifies.</param>
+        /// <returns></returns>
+        private SqlParameter CreateParameter(string tableName, SqlDbType type)
+        {
+            return new SqlParameter($"@{tableName}", type){ SourceColumn = tableName};
         }
     }
 }

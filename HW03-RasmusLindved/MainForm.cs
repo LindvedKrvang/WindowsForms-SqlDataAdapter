@@ -18,6 +18,7 @@ namespace HW03_RasmusLindved
         private const string CommitFailMsg = "Failed to commit changes to database...";
         private const string CommitSuccessMsg = "Successfully commited changes to database.";
         private const string NoChangeMsg = "No changes to commit...";
+        private const string SaveMsg = "To save changes, click commit.";
         private const string CantMoveMsg = "Unable to move further...";
         private const string CantDeleteMsg = "Unable to delete that row...";
 
@@ -37,6 +38,9 @@ namespace HW03_RasmusLindved
             LoadData();
         }
 
+        /// <summary>
+        /// Loads data from the database and displays it.
+        /// </summary>
         private void LoadData()
         {
             try
@@ -45,6 +49,7 @@ namespace HW03_RasmusLindved
 
                 dgvBirds.DataSource = _data;
                 dgvBirds.DataMember = SharedNames.Birds;
+                dgvBirds.Columns[SharedNames.BirdId].ReadOnly = true;
 
                 dgvCounts.DataSource = _data;
                 dgvCounts.DataMember = $"{SharedNames.Birds}.{SharedNames.BirdRelation}";
@@ -125,6 +130,7 @@ namespace HW03_RasmusLindved
             try
             {
                 _data.Tables[SharedNames.Birds].Rows[currentRowIndex].Delete();
+                lblMsg.Text = SaveMsg;
             }
             catch (Exception)
             {

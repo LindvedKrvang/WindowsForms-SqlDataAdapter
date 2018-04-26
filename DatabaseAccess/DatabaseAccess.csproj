@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="BirdsDatabase.cs" />
     <Compile Include="DatabaseAccessFacade.cs" />
-    <Compile Include="ECommand.cs" />
     <Compile Include="IDatabaseAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
