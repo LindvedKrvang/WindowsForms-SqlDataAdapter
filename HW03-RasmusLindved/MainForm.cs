@@ -14,7 +14,18 @@ namespace HW03_RasmusLindved
 {
     public partial class MainForm : Form
     {
+        private const string LoadSuccesMsg = "Data succesfully loaded.";
+        private const string CommitFailMsg = "Failed to commit changes to database...";
+        private const string CommitSuccessMsg = "Successfully commited changes to database.";
+        private const string NoChangeMsg = "No changes to commit...";
+        private const string CantMoveMsg = "Unable to move further...";
+        private const string CantDeleteMsg = "Unable to delete that row...";
+
         private readonly DatabaseAccessFacade _facade;
+
+        private DataSet _data;
+
+        //private DataSet
         public MainForm()
         {
             InitializeComponent();
@@ -23,19 +34,26 @@ namespace HW03_RasmusLindved
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
             try
             {
-                var dataFromDb = _facade.Database.GetData();
+                _data = _facade.Database.GetData();
 
-                dgvBirds.DataSource = dataFromDb;
+                dgvBirds.DataSource = _data;
                 dgvBirds.DataMember = SharedNames.Birds;
 
-                dgvCounts.DataSource = dataFromDb;
+                dgvCounts.DataSource = _data;
                 dgvCounts.DataMember = $"{SharedNames.Birds}.{SharedNames.BirdRelation}";
+
+                lblMsg.Text = LoadSuccesMsg;
             }
             catch (Exception ex)
             {
-                lblErrorMsg.Text = ex.Message;
+                lblMsg.Text = ex.Message;
             }
         }
 
@@ -47,18 +65,71 @@ namespace HW03_RasmusLindved
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             var currentRowIndex = dgvBirds.CurrentCell.RowIndex;
-            dgvBirds.CurrentCell = dgvBirds.Rows[currentRowIndex - 1].Cells[0];
+            try
+            {
+                dgvBirds.CurrentCell = dgvBirds.Rows[currentRowIndex - 1].Cells[0];
+            }
+            catch (Exception)
+            {
+                lblMsg.Text = CantMoveMsg;
+            }
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
             var currentRowIndex = dgvBirds.CurrentCell.RowIndex;
-            dgvBirds.CurrentCell = dgvBirds.Rows[currentRowIndex + 1].Cells[0];
+            try
+            {
+                dgvBirds.CurrentCell = dgvBirds.Rows[currentRowIndex + 1].Cells[0];
+            }
+            catch (Exception)
+            {
+                lblMsg.Text = CantMoveMsg;
+            }
         }
 
         private void btnLast_Click(object sender, EventArgs e)
         {
             dgvBirds.CurrentCell = dgvBirds.Rows[dgvBirds.RowCount - 1].Cells[0];
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void btnCommitData_Click(object sender, EventArgs e)
+        {
+            if (_data.HasChanges())
+            {
+                try
+                {
+                    _facade.Database.CommitData(_data);
+                    lblMsg.Text = CommitSuccessMsg;
+                }
+                catch (Exception)
+                {
+                    lblMsg.Text = CommitFailMsg;
+                }
+            }
+            else
+            {
+                lblMsg.Text = NoChangeMsg;
+            }
+            
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            var currentRowIndex = dgvBirds.CurrentCell.RowIndex;
+            try
+            {
+                _data.Tables[SharedNames.Birds].Rows[currentRowIndex].Delete();
+            }
+            catch (Exception)
+            {
+                lblMsg.Text = CantDeleteMsg;
+            }
         }
     }
 }

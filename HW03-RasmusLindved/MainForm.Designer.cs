@@ -36,7 +36,10 @@
             this.btnNext = new System.Windows.Forms.Button();
             this.btnFirst = new System.Windows.Forms.Button();
             this.btnPrevious = new System.Windows.Forms.Button();
-            this.lblErrorMsg = new System.Windows.Forms.Label();
+            this.lblMsg = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnCommitData = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBirds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCounts)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +56,7 @@
             // dgvCounts
             // 
             this.dgvCounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCounts.Location = new System.Drawing.Point(25, 334);
+            this.dgvCounts.Location = new System.Drawing.Point(25, 376);
             this.dgvCounts.Name = "dgvCounts";
             this.dgvCounts.RowTemplate.Height = 24;
             this.dgvCounts.Size = new System.Drawing.Size(702, 190);
@@ -63,7 +66,7 @@
             // 
             this.lblBirds.AutoSize = true;
             this.lblBirds.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBirds.Location = new System.Drawing.Point(25, 13);
+            this.lblBirds.Location = new System.Drawing.Point(22, 22);
             this.lblBirds.Name = "lblBirds";
             this.lblBirds.Size = new System.Drawing.Size(45, 17);
             this.lblBirds.TabIndex = 2;
@@ -73,7 +76,7 @@
             // 
             this.lblBirdCounts.AutoSize = true;
             this.lblBirdCounts.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBirdCounts.Location = new System.Drawing.Point(22, 303);
+            this.lblBirdCounts.Location = new System.Drawing.Point(22, 356);
             this.lblBirdCounts.Name = "lblBirdCounts";
             this.lblBirdCounts.Size = new System.Drawing.Size(92, 17);
             this.lblBirdCounts.TabIndex = 3;
@@ -119,22 +122,55 @@
             this.btnPrevious.UseVisualStyleBackColor = true;
             this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
-            // lblErrorMsg
+            // lblMsg
             // 
-            this.lblErrorMsg.Location = new System.Drawing.Point(215, 300);
-            this.lblErrorMsg.MaximumSize = new System.Drawing.Size(300, 20);
-            this.lblErrorMsg.MinimumSize = new System.Drawing.Size(300, 20);
-            this.lblErrorMsg.Name = "lblErrorMsg";
-            this.lblErrorMsg.Size = new System.Drawing.Size(300, 20);
-            this.lblErrorMsg.TabIndex = 8;
-            this.lblErrorMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMsg.Location = new System.Drawing.Point(215, 300);
+            this.lblMsg.MaximumSize = new System.Drawing.Size(300, 20);
+            this.lblMsg.MinimumSize = new System.Drawing.Size(300, 20);
+            this.lblMsg.Name = "lblMsg";
+            this.lblMsg.Size = new System.Drawing.Size(300, 20);
+            this.lblMsg.TabIndex = 8;
+            this.lblMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(25, 297);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(149, 23);
+            this.btnDelete.TabIndex = 9;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnCommitData
+            // 
+            this.btnCommitData.Location = new System.Drawing.Point(578, 297);
+            this.btnCommitData.Name = "btnCommitData";
+            this.btnCommitData.Size = new System.Drawing.Size(149, 23);
+            this.btnCommitData.TabIndex = 10;
+            this.btnCommitData.Text = "Commit";
+            this.btnCommitData.UseVisualStyleBackColor = true;
+            this.btnCommitData.Click += new System.EventHandler(this.btnCommitData_Click);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(299, 334);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(149, 23);
+            this.btnRefresh.TabIndex = 11;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(752, 551);
-            this.Controls.Add(this.lblErrorMsg);
+            this.ClientSize = new System.Drawing.Size(752, 596);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.btnCommitData);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.lblMsg);
             this.Controls.Add(this.btnPrevious);
             this.Controls.Add(this.btnFirst);
             this.Controls.Add(this.btnNext);
@@ -163,7 +199,10 @@
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnFirst;
         private System.Windows.Forms.Button btnPrevious;
-        private System.Windows.Forms.Label lblErrorMsg;
+        private System.Windows.Forms.Label lblMsg;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnCommitData;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 
