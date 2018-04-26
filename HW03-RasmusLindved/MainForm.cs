@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using DatabaseAccess;
 using SharedData;
 
-namespace HW03_RasmusLindved
+namespace GUI
 {
     public partial class MainForm : Form
     {

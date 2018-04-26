@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW03-RasmusLindved", "HW03-RasmusLindved\HW03-RasmusLindved.csproj", "{B8E933DD-09DE-4D21-9225-1B6B94DA0B26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "HW03-RasmusLindved\GUI.csproj", "{B8E933DD-09DE-4D21-9225-1B6B94DA0B26}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseAccess", "DatabaseAccess\DatabaseAccess.csproj", "{4D5E423D-1CBA-4243-9AFD-46A16EF0D63D}"
 EndProject

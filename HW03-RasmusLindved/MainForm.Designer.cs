@@ -1,4 +1,4 @@
-﻿namespace HW03_RasmusLindved
+﻿namespace GUI
 {
     partial class MainForm
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HW03_RasmusLindved.Properties
+namespace GUI.Properties
 {
 
 
